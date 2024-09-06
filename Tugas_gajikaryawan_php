@@ -1,0 +1,43 @@
+<?php
+class Karyawan {
+    public $hariKerja;
+    public $gajiHarian;
+    public $level;
+    
+    function __construct($hariKerja, $gajiHarian, $level) {
+        $this->hariKerja = $hariKerja;
+        $this->gajiHarian = $gajiHarian;
+        $this->level = $level;
+    }
+
+    function hitungGaji() {
+        $gajiPokok = $this->hariKerja * $this->gajiHarian;
+        $bonus = 0;
+        
+        if ($this->hariKerja >= 17 && $this->hariKerja <= 20) {
+            if ($this->level == 'Senior') {
+                $bonus = 2*$this->gajiHarian;
+            } elseif ($this->level == 'Junior') {
+                $bonus = 1*$this->gajiHarian; 
+            }
+        }
+        
+        $totalGaji = $gajiPokok + $bonus;
+        
+        return $totalGaji;
+    }
+}
+
+$hariKerjaList = [
+    'Senior' => 20,
+    'Junior' => 18
+];
+$gajiHarian = 100000;
+
+foreach ($hariKerjaList as $level => $hariKerja) {
+    $karyawan = new Karyawan($hariKerja, $gajiHarian, $level);
+    $gaji = $karyawan->hitungGaji();
+    echo "Karyawan $level yang masuk $hariKerja hari kerja bayarannya adalah Rp. $gaji\n";
+}
+
+?>

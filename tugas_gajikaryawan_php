@@ -1,0 +1,55 @@
+<?php
+class Karyawan {
+    public $nama;
+    public $level;
+    public $gajiHarian;
+    public $hariKerja;
+    private $bonus; // Properti bonus
+
+    function __construct($nama, $level, $gajiHarian, $hariKerja) {
+        $this->nama = $nama;
+        $this->level = $level;
+        $this->gajiHarian = $gajiHarian;
+        $this->hariKerja = $hariKerja;
+        $this->bonus = 0; // Inisialisasi bonus dengan 0
+    }
+
+    function hitungGaji() {
+        // Hitung gaji dasar berdasarkan hari kerja
+        $gajiDasar = $this->gajiHarian * $this->hariKerja;
+
+        // Hitung bonus jika hari kerja antara 17 dan 20
+        if ($this->hariKerja >= 17 && $this->hariKerja <= 20) {
+            if ($this->level == 'senior') {
+                $this->bonus = $gajiDasar; // Senior mendapat bonus 1x gaji dasar
+            } else {
+                $this->bonus = $gajiDasar / 2; // Junior mendapat bonus 0.5x gaji dasar
+            }
+        }
+
+        // Hitung gaji total
+        $gajiTotal = $gajiDasar + $this->bonus;
+
+        return [$gajiDasar, $this->bonus, $gajiTotal];
+    }
+
+    function cetakGaji() {
+        list($gajiDasar, $bonus, $gajiTotal) = $this->hitungGaji();
+
+        echo "Karyawan {$this->nama} dengan level {$this->level} menerima gaji dasar sebesar Rp " . number_format($gajiDasar, 0, ',', '.') . ".\n";
+
+        if ($bonus > 0) {
+            echo "Bonus yang diterima: Rp " . number_format($bonus, 0, ',', '.') . ".\n";
+        }
+
+        echo "Gaji total sebesar Rp " . number_format($gajiTotal, 0, ',', '.') . ".\n";
+    }
+}
+
+// Contoh penggunaan:
+$karyawan1 = new Karyawan('Andi', 'senior', 15500, 20);
+$karyawan1->cetakGaji();
+
+$karyawan2 = new Karyawan('Budi', 'junior', 105000, 18);
+$karyawan2->cetakGaji();
+?>
