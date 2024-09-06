@@ -1,0 +1,60 @@
+<?php
+class Pembelian {
+    public $hargaBarang;
+    public $jumlahItem;
+    public $diskonPersen;
+    public $uangDiterima;
+    
+    public function __construct($hargaBarang, $jumlahItem, $diskonPersen, $uangDiterima) {
+        $this->hargaBarang = $hargaBarang;
+        $this->jumlahItem = $jumlahItem;
+        $this->diskonPersen = $diskonPersen;
+        $this->uangDiterima = $uangDiterima;
+    }
+    
+    public function hitungTotalHarga() {
+        return $this->hargaBarang * $this->jumlahItem;
+    }
+    
+    public function hitungDiskon() {
+        $totalHarga = $this->hitungTotalHarga();
+        return $totalHarga * ($this->diskonPersen / 100);
+    }
+    
+    public function hitungKembalianDenganDiskon() {
+        $totalHarga = $this->hitungTotalHarga();
+        $potonganDiskon = $this->hitungDiskon();
+        return $this->uangDiterima - ($totalHarga - $potonganDiskon);
+    }
+    
+    public function hitungKembalianTanpaDiskon() {
+        $totalHarga = $this->hitungTotalHarga();
+        return $this->uangDiterima - $totalHarga;
+    }   
+        
+    public function tampilkanHasil() {
+        $totalHarga = $this->hitungTotalHarga();
+        $potonganDiskon = $this->hitungDiskon();
+        $totalSetelahDiskon = $totalHarga - $potonganDiskon;
+        $uangKembalianDiskon = $this->hitungKembalianDenganDiskon();
+        $uangKembalianTanpaDiskon = $this->hitungKembalianTanpaDiskon();
+        
+        echo "Harga Barang per item: Rp", number_format($this->hargaBarang) . "\n";
+        echo "Jumlah Item: ", $this->jumlahItem . "\n";
+        echo "Total Harga: Rp", number_format($totalHarga) . "\n";
+        echo "Diskon: ", $this->diskonPersen , "% (Rp". number_format($potonganDiskon) . ")\n";
+        echo "Total setelah Diskon: Rp", number_format($totalSetelahDiskon) . "\n";
+        echo "Uang Diterima: Rp", number_format($this->uangDiterima) . "\n";
+        echo "Kembalian dengan Diskon: Rp", number_format($uangKembalianDiskon) . "\n";
+        echo "Kembalian tanpa Diskon: Rp", number_format($uangKembalianTanpaDiskon) . "\n";
+    }   
+}       
+
+$hargaBarang = 30000;  
+$jumlahItem = 3;       
+$diskonPersen = 20;    
+$uangDiterima = 100000; 
+
+$pembelian = new Pembelian($hargaBarang, $jumlahItem, $diskonPersen, $uangDiterima);
+$pembelian->tampilkanHasil();
+?>
